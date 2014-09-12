@@ -2,7 +2,7 @@
 
 Ensure that at most one instance is running, based on PIDs.
 
-Basing it on PIDs in this case means that even if a process dies without taking care of its pidfile, the next process who tries to create a new lockfile will be able to do so.
+Basing it on PIDs in this case means that even if a process dies without taking care of its lockfile, the next process who tries to create a new lockfile will be able to do so.
 
 [![NPM](https://nodei.co/npm/pidlockfile.png?downloads&stars)](https://nodei.co/npm/pidlockfile/)
 
