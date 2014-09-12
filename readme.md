@@ -1,4 +1,4 @@
-# pidlockfile
+# pidlockfile[![build status](https://secure.travis-ci.org/kesla/pidlockfile.svg)](http://travis-ci.org/kesla/pidlockfile)
 
 Ensure that at most one instance is running, based on PIDs.
 
