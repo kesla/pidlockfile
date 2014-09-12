@@ -9,7 +9,7 @@ var fork = require('child_process').fork
       return path.join(directory, 'lockfile' + idx++)
     }
 
-  , lockfile = require('./lockfile')
+  , lockfile = require('./pidlockfile')
 
 // fork this file in a few tests
 if (process.argv.indexOf('child') !== -1) {
