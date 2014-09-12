@@ -4,7 +4,9 @@ var fs = require('fs')
 
   , checkPid = function (filename, callback) {
       fs.readFile(filename, { encoding: 'utf8' }, function (err, otherPid) {
-        if (err)
+        if (err && err.code === 'ENOENT')
+          return callback()
+        else if (err)
           return callback(err)
 
         otherPid = parseInt(otherPid, 10)
@@ -13,19 +15,20 @@ var fs = require('fs')
           process.kill(otherPid, 0)
           callback(new Error('Lockfile already acquired'))
         } catch(e) {
-          callback(null)
+          // remove the pidfile if the previous process didn't remove it
+          // properly
+          fs.unlink(filename, callback)
         }
       })
     }
 
   , lock = function (filename, callback) {
 
-      fs.writeFile(filename, pid, { flag: 'wx' }, function (err) {
+      checkPid(filename, function(err) {
+        if (err)
+          return callback(err)
 
-        if (err && err.code === 'EEXIST') {
-          return checkPid(filename, callback)
-        }
-        callback(err)
+        fs.writeFile(filename, pid, { flag: 'wx' }, callback)
       })
     }
   , unlock = function (filename, callback) {

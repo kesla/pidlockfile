@@ -52,7 +52,11 @@ test('SIGINT', function (t) {
   child.on('close', function () {
     lockfile.lock(filename, function (err) {
       t.error(err)
-      t.end()
+      fs.readFile(filename, function (err, pidfile) {
+        t.error(err)
+        t.equal(parseInt(pidfile, 10), process.pid)
+        t.end()
+      })
     })
   })
 
@@ -71,7 +75,11 @@ test('SIGKILL', function (t) {
   child.on('close', function () {
     lockfile.lock(filename, function (err) {
       t.error(err)
-      t.end()
+      fs.readFile(filename, function (err, pidfile) {
+        t.error(err)
+        t.equal(parseInt(pidfile, 10), process.pid)
+        t.end()
+      })
     })
   })
 
