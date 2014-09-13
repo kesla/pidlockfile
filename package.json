@@ -1,6 +1,6 @@
 {
   "name": "pidlockfile",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Ensure that at most one instance is running, based on PIDs",
   "main": "pidlockfile.js",
   "scripts": {
