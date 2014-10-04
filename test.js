@@ -104,6 +104,18 @@ test('check() locked file', function (t) {
   })
 })
 
+test('unlock() none existing file', function (t) {
+  var filename = getFilename()
+
+  lockfile.check(filename, function (err) {
+    t.ok(err)
+    if (err) {
+      t.equal(err.code, 'ENOENT')
+    }
+    t.end()
+  })
+})
+
 test('check() none-active file', function (t) {
   var filename = getFilename()
 
@@ -128,5 +140,4 @@ test('check() none existing file', function (t) {
     t.equal(locked, undefined)
     t.end()
   })
-
 })
