@@ -90,3 +90,43 @@ test('lock() when process SIGKILL', function (t) {
     })
   })
 })
+
+test('check() locked file', function (t) {
+  var filename = getFilename()
+
+  lockfile.lock(filename, function (err) {
+    if (err) return t.end(err)
+
+    lockfile.check(filename, function (err, locked) {
+      t.equal(locked, true)
+      t.end(err)
+    })
+  })
+})
+
+test('check() none-active file', function (t) {
+  var filename = getFilename()
+
+  fs.writeFile(filename, '1234', function (err) {
+    if (err) return t.end(err)
+
+    lockfile.check(filename, function (err, locked) {
+      t.equal(locked, false)
+      t.end(err)
+    })
+  })
+})
+
+test('check() none existing file', function (t) {
+  var filename = getFilename()
+
+  lockfile.check(filename, function (err, locked) {
+    t.ok(err)
+    if (err) {
+      t.equal(err.code, 'ENOENT')
+    }
+    t.equal(locked, undefined)
+    t.end()
+  })
+
+})

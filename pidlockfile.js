@@ -22,6 +22,21 @@ var fs = require('fs')
       })
     }
 
+  , check = function (filename, callback) {
+      fs.readFile(filename, { encoding: 'utf8' }, function (err, pid) {
+        if (err) return callback(err)
+
+        pid = parseInt(pid, 10)
+
+        try {
+          process.kill(pid, 0)
+          callback(null, true)
+        } catch(e) {
+          callback(null, false)
+        }
+      })
+    }
+
   , lock = function (filename, callback) {
 
       checkPid(filename, function(err) {
@@ -37,5 +52,6 @@ var fs = require('fs')
 
 module.exports = {
     lock: lock
+  , check: check
   , unlock: unlock
 }
