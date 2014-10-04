@@ -27,7 +27,7 @@ test('setup', function (t) {
   t.end()
 })
 
-test('lock/unlock', function (t) {
+test('lock()/unlock()', function (t) {
   var filename = getFilename()
 
   lockfile.lock(filename, function (err) {
@@ -45,7 +45,7 @@ test('lock/unlock', function (t) {
   })
 })
 
-test('SIGINT', function (t) {
+test('lock() when process SIGINT', function (t) {
   var filename = getFilename()
     , child = fork(__filename, ['child'], { env: { FILENAME: filename } })
 
@@ -68,7 +68,7 @@ test('SIGINT', function (t) {
   })
 })
 
-test('SIGKILL', function (t) {
+test('lock() when process SIGKILL', function (t) {
   var filename = getFilename()
     , child = fork(__filename, ['child'], { env: { FILENAME: filename } })
 
