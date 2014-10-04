@@ -1,8 +1,6 @@
 # pidlockfile[![build status](https://secure.travis-ci.org/kesla/pidlockfile.svg)](http://travis-ci.org/kesla/pidlockfile)
 
-Ensure that at most one instance is running, based on PIDs.
-
-Basing it on PIDs in this case means that even if a process dies without taking care of its lockfile, the next process who tries to create a new lockfile will be able to do so.
+Ensure that at most one instance is running, based on PIDs
 
 [![NPM](https://nodei.co/npm/pidlockfile.png?downloads&stars)](https://nodei.co/npm/pidlockfile/)
 
@@ -24,9 +22,13 @@ var lockFile = require('./pidlockfile')
   , filename = __dirname + '/LOCKFILE'
 
 lockFile.lock(filename, function (err) {
-  lockFile.lock(filename, function (err) {
-    console.log(err)
-    lockFile.unlock(filename)
+  lockFile.check(filename, function (err, locked) {
+    console.log('the lockFile is locked', locked)
+
+    lockFile.lock(filename, function (err) {
+      console.log(err)
+      lockFile.unlock(filename)
+    })
   })
 })
 ```
@@ -34,6 +36,7 @@ lockFile.lock(filename, function (err) {
 ### Output
 
 ```
+the lockFile is locked true
 [Error: Lockfile already acquired]
 ```
 
